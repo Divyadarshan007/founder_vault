@@ -87,7 +87,7 @@ export async function deleteContent(contentId: string) {
   const attachments = await Attachment.find({ contentId: content._id });
   await Promise.all([
     ...attachments.map((a) => {
-      const filePath = path.join(process.cwd(), "uploads", a.r2Key);
+      const filePath = path.join(process.cwd(), "uploads", a.storageKey);
       return fs.promises.unlink(filePath).catch(() => {});
     }),
     Attachment.deleteMany({ contentId: content._id }),

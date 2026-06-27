@@ -6,7 +6,7 @@ export interface IAttachment extends Document {
   fileUrl: string;
   fileType: string;
   fileSize: number;
-  r2Key: string;
+  storageKey: string;
   uploadedAt: Date;
 }
 
@@ -16,7 +16,7 @@ const AttachmentSchema = new Schema<IAttachment>({
   fileUrl: { type: String, required: true },
   fileType: { type: String, required: true },
   fileSize: { type: Number, required: true },
-  r2Key: { type: String, required: true },
+  storageKey: { type: String, required: true },
   uploadedAt: { type: Date, default: Date.now },
 });
 

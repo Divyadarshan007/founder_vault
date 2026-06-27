@@ -19,7 +19,7 @@ export async function uploadFiles(
         fileUrl,
         fileType: file.mimetype,
         fileSize: file.size,
-        r2Key: file.filename,
+        storageKey: file.filename,
         ...(contentId ? { contentId: new Types.ObjectId(contentId) } : {}),
       };
 

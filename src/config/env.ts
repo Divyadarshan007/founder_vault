@@ -14,11 +14,6 @@ export const env = {
   JWT_REFRESH_SECRET: requireEnv("JWT_REFRESH_SECRET"),
   JWT_ACCESS_EXPIRES: process.env.JWT_ACCESS_EXPIRES || "15m",
   JWT_REFRESH_EXPIRES: process.env.JWT_REFRESH_EXPIRES || "7d",
-  R2_ACCOUNT_ID: process.env.R2_ACCOUNT_ID || "",
-  R2_ACCESS_KEY_ID: process.env.R2_ACCESS_KEY_ID || "",
-  R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY || "",
-  R2_BUCKET_NAME: process.env.R2_BUCKET_NAME || "founder-vault",
-  R2_PUBLIC_URL: process.env.R2_PUBLIC_URL || "",
   FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:3000",
   BACKEND_URL: process.env.BACKEND_URL || "http://localhost:5000",
 };

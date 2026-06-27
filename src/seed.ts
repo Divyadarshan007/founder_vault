@@ -204,7 +204,7 @@ async function seedContent(ownerId: Types.ObjectId, items: ContentSeed[]) {
           fileUrl: a.fileUrl,
           fileType: a.fileType,
           fileSize: a.fileSize,
-          r2Key: `seed/${a.fileName}`,
+          storageKey: `seed/${a.fileName}`,
         }))
       );
       await Content.updateOne(
@@ -239,18 +239,38 @@ async function seed() {
   ) as IUser;
   console.log(`✓ User: ${mainUser.email}`);
 
-  // Clear existing content and attachments
-  const existing = await Content.find({ ownerId: mainUser._id });
-  await Attachment.deleteMany({ contentId: { $in: existing.map((c) => c._id) } });
-  await Content.deleteMany({ ownerId: mainUser._id });
+  const adminUser = await User.findOneAndUpdate(
+    { email: "admin@admin.com" },
+    {
+      $set: {
+        name: "Rohan Mehta",
+        companyName: "Nexus Ventures",
+        designation: "Co-founder & CTO",
+        bio: "Building products at the intersection of AI and developer tooling.",
+        isActive: true,
+      },
+      $setOnInsert: { email: "admin@admin.com", passwordHash },
+    },
+    { upsert: true, new: true }
+  ) as IUser;
+  console.log(`✓ User: ${adminUser.email}`);
 
-  await seedContent(mainUser._id as Types.ObjectId, textItems);
-  console.log(`✓ Text items: ${textItems.length}`);
+  // Clear existing content and attachments for both users
+  for (const user of [mainUser, adminUser]) {
+    const existing = await Content.find({ ownerId: user._id });
+    await Attachment.deleteMany({ contentId: { $in: existing.map((c) => c._id) } });
+    await Content.deleteMany({ ownerId: user._id });
+  }
 
-  await seedContent(mainUser._id as Types.ObjectId, attachmentItems);
-  console.log(`✓ Attachment items: ${attachmentItems.length}`);
+  for (const user of [mainUser, adminUser]) {
+    await seedContent(user._id as Types.ObjectId, textItems);
+    await seedContent(user._id as Types.ObjectId, attachmentItems);
+    console.log(`✓ Content seeded for: ${user.email}`);
+  }
 
-  console.log(`\nLogin: singhkapil708@gmail.com / password123`);
+  console.log(`\nLogins:`);
+  console.log(`  singhkapil708@gmail.com / password123`);
+  console.log(`  admin@admin.com / password123`);
 
   await mongoose.disconnect();
   console.log("Done.");

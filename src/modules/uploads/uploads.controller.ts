@@ -18,7 +18,7 @@ export async function downloadAttachmentHandler(req: Request, res: Response): Pr
     return;
   }
 
-  const localPath = path.join(process.cwd(), "uploads", attachment.r2Key);
+  const localPath = path.join(process.cwd(), "uploads", attachment.storageKey);
   if (!fs.existsSync(localPath)) {
     res.status(404).json({ success: false, message: "File not found on server" });
     return;
