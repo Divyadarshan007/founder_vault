@@ -13,6 +13,7 @@ import uploadsRoutes from "./modules/uploads/uploads.routes";
 import sharesRoutes from "./modules/shares/shares.routes";
 import searchRoutes from "./modules/search/search.routes";
 import tagsRoutes from "./modules/tags/tags.routes";
+import transcribeRoutes from "./modules/transcribe/transcribe.routes";
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use("/api/uploads", uploadsRoutes);
 app.use("/api/shares", sharesRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/tags", tagsRoutes);
+app.use("/api/transcribe", transcribeRoutes);
 
 app.use(errorHandler);
 
